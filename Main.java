@@ -83,7 +83,7 @@ public class Main {
           if (!encontrado) {
             throw new NameNotFoundException("Professor " + professor + " não está cadastrado(a)!");
           }
-        } else break;
+        }
         
       } catch (InputMismatchException ex) { // Responsável por lidar com os erros de entrada.
         System.out.println("Tipo de dado inválido, valor do tipo [String] atribuído a variável do tipo numérico.");
