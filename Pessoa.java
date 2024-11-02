@@ -10,4 +10,22 @@ public abstract class Pessoa {
     this.endereco = endereco;
     this.telefone = telefone;
   }
+
+  public abstract String Relatorio();
+  
+  public String getNome() {
+    return this.nome;
+  }
+
+  public String getDataNascimento() {
+    return this.dataNascimento;
+  }
+
+  public Endereco getEndereco() {
+    return this.endereco;
+  }
+
+  public String getTelefone() {
+    return this.telefone;
+  }
 }

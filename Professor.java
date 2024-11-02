@@ -20,4 +20,11 @@ public class Professor extends Pessoa implements GerenciadorCadastroProfessor {
   public void CadastrarProfessor() {
     // TODO Auto-generated method stub
   }
+
+  @Override
+  public String Relatorio() {
+    return "Nome: " + this.getNome() + " | Data de Nascimento: " + this.getDataNascimento() + " | Endereco: " + this.getEndereco().toString() +
+    " | Telefone: " + this.getTelefone() + "\nArea de formação: " + this.areaDeFormacao + " | Ano de Admissão: " + this.anoDeAdmissao + " | Email: "
+    + this.email + " | Quantidade de turmas: " + this.turmas.size();
+  }
 }

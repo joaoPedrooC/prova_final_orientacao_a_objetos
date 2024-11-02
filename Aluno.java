@@ -18,4 +18,10 @@ public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
   public void CadastrarAluno() {
     // TODO Auto-generated method stub
   }
+
+  @Override
+  public String Relatorio() {
+    // TODO Auto-generated method stub
+    return "";
+  }
 }

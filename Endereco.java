@@ -8,4 +8,9 @@ public class Endereco {
     this.estado = estado;
     this.cep = cep;
   }
+
+  @Override
+  public String toString() {
+    return "Cidade: " + this.cidade + " | Estado: " + this.estado + " | CEP: " + this.cep;
+  }
 }
