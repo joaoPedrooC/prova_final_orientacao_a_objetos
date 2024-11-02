@@ -15,4 +15,8 @@ public class Disciplina {
     this.professores = new ArrayList<Professor>();
     this.notas = new ArrayList<Nota>();
   }
+
+  public String getNome() {
+    return this.nome;
+  }
 }

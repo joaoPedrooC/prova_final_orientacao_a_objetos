@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import javax.naming.NameNotFoundException;
+
 public class Main {
   public static void main(String[] args) {
     // Declaração de variáveis
@@ -45,11 +47,48 @@ public class Main {
           for (Turma turma : turmas) {
             System.out.println(turma.toString() + '\n');
           }
-        }
+        } else if(op == 13) { // Listar alunos de uma disciplina
+          System.out.println("Informe a disciplina que deseja visualizar:");
+          String disciplina = scanner.nextLine();
+          boolean encontrado = false;
+
+          for (Turma turma : turmas) {
+            if (turma.getDisciplina().getNome().equalsIgnoreCase(disciplina)) {
+              encontrado = true;
+              
+              for (Aluno aluno : turma.getAlunos()) {
+                System.out.println("Nome: " + aluno.getNome() + " | Matricula: " + aluno.getMatricula());
+              }
+
+              break;
+            }
+          }
+
+          if (!encontrado) {
+            throw new NameNotFoundException("Disciplina " + disciplina + " não está cadastrada!");
+          }
+        } else if(op == 14) { // Listar turmas de um professor
+          System.out.println("Informe o nome do professor que deseja buscar:");
+          String professor = scanner.nextLine();
+          boolean encontrado = false;
+
+          for (Turma turma : turmas) {
+            if (turma.getProfessor().getNome().equalsIgnoreCase(professor)) {
+              encontrado = true;
+              
+              System.out.println(turma.toString());
+            }
+          }
+
+          if (!encontrado) {
+            throw new NameNotFoundException("Professor " + professor + " não está cadastrado(a)!");
+          }
+        } else break;
         
       } catch (InputMismatchException ex) { // Responsável por lidar com os erros de entrada.
         System.out.println("Tipo de dado inválido, valor do tipo [String] atribuído a variável do tipo numérico.");
-        scanner.nextLine(); // "Limpa" o terminal para leitura das operações seguintes.
+      } catch (NameNotFoundException ex) {
+        System.out.println(ex.getMessage());
       }
     }
 

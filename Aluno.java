@@ -14,6 +14,10 @@ public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
     this.notas = new ArrayList<Nota>();
   }
 
+  public int getMatricula() {
+    return this.matricula;
+  }
+
   @Override
   public void CadastrarAluno() {
     // TODO Auto-generated method stub
