@@ -1,31 +1,75 @@
 import java.util.ArrayList;
 
 public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
-  private int matricula;
-  private int anoIngresso;
-  private ArrayList<Nota> notas;
+    private int matricula;
+    private int anoIngresso;
+    private ArrayList<Nota> notas;
 
-  public Aluno(String nome, String dataNascimento, Endereco endereco, String telefone, int matricula, int anoIngresso) {
-    super(nome, dataNascimento, endereco, telefone);
+    public Aluno(String nome, String dataNascimento, Endereco endereco, String telefone, int matricula, int anoIngresso) {
+        super(nome, dataNascimento, endereco, telefone);
+        this.matricula = matricula;
+        this.anoIngresso = anoIngresso;
+        this.notas = new ArrayList<Nota>();
+    }
 
-    this.matricula = matricula;
-    this.anoIngresso = anoIngresso;
+    public int getMatricula() {
+        return this.matricula;
+    }
 
-    this.notas = new ArrayList<Nota>();
+    public void adicionarNota(Nota nota) {
+        this.notas.add(nota);
+    }
+
+    public double calcularMedia() {
+        if (notas.isEmpty()) return 0;
+
+        double soma = 0;
+        for (Nota nota : notas) {
+            soma += nota.getNota(); 
+        }
+        return soma / notas.size();
+    }
+
+    public String relatorioNotas() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("Nome: ").append(this.getNome()).append("\n");
+        relatorio.append("Matrícula: ").append(this.matricula).append("\n");
+        relatorio.append("Notas:\n");
+
+        for (Nota nota : notas) {
+            relatorio.append(" - Nota: ").append(nota.getNota()).append(" (Data: ").append(nota.getData()).append(")\n");
+        }
+
+        relatorio.append("Média: ").append(calcularMedia()).append("\n");
+        return relatorio.toString();
+    }
+
+    public ArrayList<Nota> getNotas() {
+      return this.notas;
   }
 
-  public int getMatricula() {
-    return this.matricula;
-  }
+    @Override
+    public void CadastrarAluno() {
+        // Implementação do método
+    }
 
-  @Override
-  public void CadastrarAluno() {
-    // TODO Auto-generated method stub
-  }
+    @Override
+    public String Relatorio() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("Nome: ").append(this.getNome())
+                 .append(" | Matrícula: ").append(this.matricula)
+                 .append(" | Ano de Ingresso: ").append(this.anoIngresso)
+                 .append(" | Data de Nascimento: ").append(this.getDataNascimento())
+                 .append(" | Endereço: ").append(this.getEndereco().toString())
+                 .append(" | Telefone: ").append(this.getTelefone())
+                 .append("\nNotas:\n");
 
-  @Override
-  public String Relatorio() {
-    // TODO Auto-generated method stub
-    return "";
-  }
+        for (Nota nota : this.notas) {
+            relatorio.append(" - Nota: ").append(nota.getNota())
+                     .append(" | Data: ").append(nota.getData())
+                     .append("\n");
+        }
+        return relatorio.toString();
+    }
 }
+ 
