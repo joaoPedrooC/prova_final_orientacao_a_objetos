@@ -21,6 +21,10 @@ public class Professor extends Pessoa implements GerenciadorCadastroProfessor {
     // TODO Auto-generated method stub
   }
 
+  public void AdicionarTurma(Turma turma) {
+    this.turmas.add(turma);
+  }
+
   @Override
   public String Relatorio() {
     return "Nome: " + this.getNome() + " | Data de Nascimento: " + this.getDataNascimento() + " | Endereco: " + this.getEndereco().toString() +

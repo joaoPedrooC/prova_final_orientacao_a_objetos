@@ -24,6 +24,10 @@ public class Turma {
     return this.disciplina;
   }
 
+  public void AdicionarAlunos(Aluno aluno) {
+    this.alunos.add(aluno);
+  }
+
   public ArrayList<Aluno> getAlunos() {
     return this.alunos;
   }
