@@ -419,7 +419,7 @@ public class Main {
           }
         }else if (op == 7) { // Relatório de professores
           for (Professor professor : professores) {
-            System.out.println(professor.Relatorio());
+            System.out.println(professor.Relatorio() + professor.getNome() + "\n");
           }
         } else if (op == 8) { // Relatório de Disciplinas
           System.out.println("=== Relatório de Disciplinas ===");
@@ -482,7 +482,7 @@ public class Main {
           boolean encontrado = false;
 
           for (Turma turma : turmas) {
-            if (turma.getProfessor().getNome().equalsIgnoreCase(professor)) {
+            if (turma.getProfessor().getNome().trim().equalsIgnoreCase(professor)) {
               encontrado = true;
               
               System.out.println(turma.toString());
@@ -490,7 +490,7 @@ public class Main {
           }
 
           if (!encontrado) {
-            throw new NameNotFoundException("Professor " + professor + " não está cadastrado(a)!");
+            throw new NameNotFoundException("Professor " + professor + " não possui turmas associadas a ele(a)!");
           }
         } else if (op == 15) { // Sair
           System.out.println("Saindo do sistema.");
