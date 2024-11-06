@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -11,13 +10,172 @@ public class Main {
   public static void main(String[] args) {
     // Declaração de variáveis
     Scanner scanner = new Scanner(System.in);
+    
+    File arquivoAlunos = new File("Alunos.txt");
+    File arquivoProfessores = new File("Professores.txt");
+    File arquivoDisciplinas = new File("Disciplinas.txt");
+    File arquivoTurma = new File("Turmas.txt");
+    File arquivoNotas = new File("Notas.txt");
 
     ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
     ArrayList<Professor> professores = new ArrayList<Professor>();
     ArrayList<Turma> turmas = new ArrayList<Turma>();
     ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 
-    File arquivo = new File("Relatorio.txt");
+    try {
+      if (arquivoAlunos.exists()) {
+        Scanner leitorArquivoAlunos = new Scanner(arquivoAlunos);
+
+        while (leitorArquivoAlunos.hasNextLine()) {
+          String []dadosAluno = leitorArquivoAlunos.nextLine().split(" - ");
+          
+          String nome = dadosAluno[0];
+          String telefone = dadosAluno[1];
+          String nascimento = dadosAluno[2];
+          int matricula = Integer.parseInt(dadosAluno[3]);
+          int anoIngresso = Integer.parseInt(dadosAluno[4]);
+          String cidade = dadosAluno[5];
+          String estado = dadosAluno[6];
+          String cep = dadosAluno[7];
+  
+          Endereco endereco = new Endereco(cidade, estado, cep);
+          Aluno aluno = new Aluno(nome, nascimento, endereco, telefone, matricula, anoIngresso);
+  
+          alunos.add(aluno);
+        }
+        leitorArquivoAlunos.close();
+      }
+
+      if(arquivoProfessores.exists()) {
+        Scanner leitorArquivoProfessores = new Scanner(arquivoProfessores);
+        while (leitorArquivoProfessores.hasNextLine()) {
+          String []dadosAluno = leitorArquivoProfessores.nextLine().split(" - ");
+          
+          String nome = dadosAluno[0];
+          String telefone = dadosAluno[1];
+          String nascimento = dadosAluno[2];
+          String email = dadosAluno[3];
+          int anoAdmissao = Integer.parseInt(dadosAluno[4]);
+          String areaDeFormacao = dadosAluno[5];
+          String cidade = dadosAluno[6];
+          String estado = dadosAluno[7];
+          String cep = dadosAluno[8];
+  
+          Endereco endereco = new Endereco(cidade, estado, cep);
+          Professor professor = new Professor(nome, nascimento, endereco, telefone, areaDeFormacao, anoAdmissao, email);
+  
+          professores.add(professor);
+        }
+
+        leitorArquivoProfessores.close();
+      }
+
+      if(arquivoDisciplinas.exists()) {
+        Scanner leitorArquivoDisciplinas = new Scanner(arquivoDisciplinas);
+        while (leitorArquivoDisciplinas.hasNextLine()) {
+          String []dadosDisciplina = leitorArquivoDisciplinas.nextLine().split(" - ");
+  
+          String nome = dadosDisciplina[0];
+          int cargaHoraria = Integer.parseInt(dadosDisciplina[1]);
+          int codigo = Integer.parseInt(dadosDisciplina[2]);
+  
+          Disciplina disciplina = new Disciplina(nome, cargaHoraria, codigo);
+  
+          String []nomesProfessores = leitorArquivoDisciplinas.nextLine().split(" - ");
+          for (String nomeProfessor : nomesProfessores) {
+            for (Professor professor : professores) {
+              if (professor.getNome().equalsIgnoreCase(nomeProfessor)) {
+                disciplina.AdicionarProfessor(professor);
+                break;
+              }
+            }
+          }
+  
+          disciplinas.add(disciplina);
+        }
+
+        leitorArquivoDisciplinas.close();
+      }
+
+      if(arquivoTurma.exists()) {
+        Scanner leitorArquivoTurma = new Scanner(arquivoTurma);
+        while (leitorArquivoTurma.hasNextLine()) {
+          String []dadosTurmas = leitorArquivoTurma.nextLine().split(" - ");
+  
+          int codigo = Integer.parseInt(dadosTurmas[0]);
+          int anoLetivo = Integer.parseInt(dadosTurmas[1]);
+          String nomeProfessor = dadosTurmas[2];
+          String nomeDisciplina = dadosTurmas[3];
+  
+          Professor professor = null;
+  
+          for (Professor iProfessor : professores) {
+            if (iProfessor.getNome().equalsIgnoreCase(nomeProfessor)) {
+              professor = iProfessor;
+              break;
+            }
+          }
+  
+          Disciplina disciplina = null;
+          for (Disciplina iDisciplina : disciplinas) {
+            if (iDisciplina.getNome().equalsIgnoreCase(nomeDisciplina)) {
+              disciplina = iDisciplina;
+              break;
+            }
+          }
+  
+          Turma turma = new Turma(codigo, anoLetivo, professor, disciplina);
+          
+          String []dadosAlunos = leitorArquivoTurma.nextLine().split(" - ");
+          for (String nomeAluno : dadosAlunos) {
+            for (Aluno aluno : alunos) {
+              if (aluno.getNome().equalsIgnoreCase(nomeAluno)) {
+                turma.AdicionarAlunos(aluno);
+                break;
+              }
+            }
+          }
+
+          turmas.add(turma);
+        }
+        leitorArquivoTurma.close();
+      }
+
+      if (arquivoNotas.exists()) {
+        Scanner leitorArquivoNotas = new Scanner(arquivoNotas);
+        while (leitorArquivoNotas.hasNextLine()) {
+          String []dadosNotas = leitorArquivoNotas.nextLine().split(" - ");
+  
+          double nota = Double.parseDouble(dadosNotas[0]);
+          String data = dadosNotas[1];
+          String nomeAluno = dadosNotas[2];
+          String nomeDisciplina = dadosNotas[3];
+  
+          Aluno aluno = null;
+          Disciplina disciplina = null;
+  
+          for (Aluno iAluno : alunos) {
+            if (iAluno.getNome().equalsIgnoreCase(nomeAluno)) {
+              aluno = iAluno;
+              break;
+            }
+          }
+  
+          for (Disciplina iDisciplina : disciplinas) {
+            if (iDisciplina.getNome().equalsIgnoreCase(nomeDisciplina)) {
+              disciplina = iDisciplina;
+              break;
+            }
+          }
+  
+          Nota iNota = new Nota(nota, data, disciplina);
+          aluno.adicionarNota(iNota);
+        }
+        leitorArquivoNotas.close();
+      }
+    } catch (Exception e) {
+      System.out.println(e);
+    }
 
     while (true) { // Looping responsável pelo menu principal - continua sendo executado até a opção 15 (Sair) ser selecionada.
       try {
@@ -57,7 +215,9 @@ public class Main {
       
           Endereco endereco = new Endereco(cidade, estado, cep);
           Aluno aluno = new Aluno(nome, dataNascimento, endereco, telefone, matricula, anoIngresso);
+          
           alunos.add(aluno);
+          aluno.CadastrarAluno(aluno);
       
           System.out.println("Aluno cadastrado com sucesso!\n\n");
         } else if (op == 2) { // Cadastrar Professor
@@ -93,6 +253,7 @@ public class Main {
           Professor professor = new Professor(nome, dataNascimento, endereco, telefone, areaDeFormacao, anoDeAdmissao, email);
           
           professores.add(professor);
+          professor.CadastrarProfessor(professor);
 
           System.out.println("Professor cadastrado com sucesso!\n\n");
         } else if (op == 3) { // Cadastro de disciplinas
@@ -134,6 +295,7 @@ public class Main {
           }
 
           disciplinas.add(disciplina);
+          disciplina.CadastrarDisciplina(disciplina);
 
           System.out.println("Disciplina cadastrada com sucesso!\n\n");
         } else if (op == 4) { // Cadastrar Turma
@@ -193,6 +355,7 @@ public class Main {
 
           professorSelecionado.AdicionarTurma(turma);
           turmas.add(turma);
+          turma.CadastrarTurma(turma);
 
           System.out.println("Turma cadastrada com sucesso!\n\n");
         } else if (op == 5) { // Inserir Nota
@@ -235,8 +398,10 @@ public class Main {
             System.out.println("Informe a data da nota (dd/mm/aaaa):");
             String dataNota = scanner.nextLine();
     
-            Nota novaNota = new Nota(valorNota, dataNota);
+            Nota novaNota = new Nota(valorNota, dataNota, disciplinaSelecionada);
             alunoSelecionado.adicionarNota(novaNota); // Adiciona a nota ao aluno
+
+            novaNota.CadastrarNota(novaNota, nomeAluno);
     
             System.out.println("Nota cadastrada com sucesso para o aluno " + alunoSelecionado.getNome() + " na disciplina " + disciplinaSelecionada.getNome());
           } else {
@@ -334,42 +499,16 @@ public class Main {
         
       } catch (InputMismatchException ex) { // Responsável por lidar com os erros de entrada.
         System.out.println("Tipo de dado inválido, valor do tipo [String] atribuído a variável do tipo numérico.");
+        scanner.nextLine();
       } catch (NameNotFoundException ex) { // Responsável por lidar com os erros de instância não encontrada / não existente
         System.out.println(ex.getMessage());
       } catch (NoPermissionException ex) { // Responsável por lidar com erros de permissão
         System.out.println(ex.getMessage());
       } catch (IndexOutOfBoundsException ex) { // Responsável por lidar com erros de accesso (índice inexistente) em arrays
         System.out.println("Índice inválido!");
+      } catch (Error ex){
+        System.out.println("Falha na criação de arquivo");
       }
-    }
-
-    try { // Relatório sobre informações cadastradas durante execução
-      FileWriter escrita = new FileWriter(arquivo, true);
-
-      escrita.append("Alunos cadastrados\n");
-      for (Aluno aluno : alunos) {
-        escrita.append(aluno.Relatorio() + '\n');
-      }
-
-      escrita.append("Professores cadastrados\n");
-      for (Professor professor : professores) {
-        escrita.append(professor.Relatorio() + '\n');
-      }
-
-      escrita.append("\nTurmas cadastradas\n");
-      for (Turma turma : turmas) {
-        escrita.append(turma.toString() + "\n");
-      }
-
-      escrita.append("\nDisciplinas cadastradas\n");
-      for (Disciplina disciplina : disciplinas) {
-        escrita.append(disciplina.Relatorio() + "\n");
-      }
-
-      escrita.append("\n\n--------------------------------------------------------------------\n\n");
-      escrita.close();
-    } catch (Exception e) {
-      System.out.println("Falha na geração do relatório!");
     }
 
     scanner.close();

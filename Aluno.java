@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
@@ -48,9 +49,23 @@ public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
     return this.notas;
   }
 
+  public int getAnoIngresso() {
+    return anoIngresso;
+  }
+
   @Override
-  public void CadastrarAluno() {
-    // Implementação do método
+  public void CadastrarAluno(Aluno aluno) {
+    try {
+      FileWriter escrita = new FileWriter("Alunos.txt", true);
+      Endereco endereco = aluno.getEndereco();
+      
+      escrita.append(aluno.getNome() + " - " + aluno.getTelefone() + " - " + aluno.getDataNascimento() + " - " + aluno.getMatricula()
+      + " - " + getAnoIngresso() + " - " + endereco.getCidade() + " - " + endereco.getEstado() + " - " + endereco.getCep() + "\n");
+      
+      escrita.close();
+    } catch (Exception e) {
+      System.out.println("Falha na escrita do aluno!");
+    }
   }
 
   @Override

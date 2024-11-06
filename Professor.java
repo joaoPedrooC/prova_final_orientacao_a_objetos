@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class Professor extends Pessoa implements GerenciadorCadastroProfessor {
@@ -15,10 +16,32 @@ public class Professor extends Pessoa implements GerenciadorCadastroProfessor {
 
     this.turmas = new ArrayList<Turma>();
   }
+
+  public String getAreaDeFormacao() {
+    return areaDeFormacao;
+  }
+
+  public int getAnoDeAdmissao() {
+    return anoDeAdmissao;
+  }
+
+  public String getEmail() {
+    return email;
+  }
   
   @Override
-  public void CadastrarProfessor() {
-    // TODO Auto-generated method stub
+  public void CadastrarProfessor(Professor professor) {
+    try {
+      FileWriter escrita = new FileWriter("Professores.txt", true);
+      Endereco endereco = professor.getEndereco();
+      
+      escrita.append(professor.getNome() + " - " + professor.getTelefone() + " - " + professor.getDataNascimento() + " - " + professor.getEmail()
+      + " - " + professor.getAnoDeAdmissao() +  " - " + professor.getAreaDeFormacao() + " - " + endereco.getCidade() + " - " + endereco.getEstado() + " - " + endereco.getCep() + "\n");
+      
+      escrita.close();
+    } catch (Exception e) {
+      System.out.println("Falha na escrita do professor!");
+    }
   }
 
   public void AdicionarTurma(Turma turma) {

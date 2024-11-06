@@ -1,3 +1,3 @@
 public interface GerenciadorCadastroProfessor {
-  public void CadastrarProfessor();
+  public void CadastrarProfessor(Professor professor);
 }

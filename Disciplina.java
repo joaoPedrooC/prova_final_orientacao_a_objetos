@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class Disciplina {
@@ -16,6 +17,14 @@ public class Disciplina {
   public String getNome() {
     return this.nome;
   }
+  
+  public int getCargaHoraria() {
+    return cargaHoraria;
+  }
+
+  public int getCodigo() {
+    return codigo;
+  }
 
   public void AdicionarProfessor(Professor professor) {
     this.professores.add(professor);
@@ -33,5 +42,29 @@ public class Disciplina {
     }
 
     return relatorio.toString();
+  }
+
+  public ArrayList<Professor> getProfessores() {
+    return professores;
+  }
+
+  public void CadastrarDisciplina(Disciplina disciplina) {
+    try {
+      FileWriter escrita = new FileWriter("Disciplinas.txt", true);
+      ArrayList<Professor> professores = disciplina.getProfessores();
+      
+      String dadosProfessores = "";
+
+      escrita.append(disciplina.getNome() + " - " + disciplina.getCargaHoraria() + " - " + disciplina.getCodigo() + "\n");
+      for (Professor professor : professores) {
+        dadosProfessores += professor.getNome() + " - ";
+      }
+
+      escrita.append(dadosProfessores + "\n");
+      
+      escrita.close();
+    } catch (Exception e) {
+      System.out.println("Falha na escrita da disciplina!");
+    }
   }
 }
