@@ -382,11 +382,11 @@ public class Main {
       
           // Verificar se a disciplina está cadastrada
           for (Disciplina disciplina : disciplinas) {
-              if (disciplina.getNome().equalsIgnoreCase(nomeDisciplina)) {
-                  disciplinaSelecionada = disciplina;
-                  disciplinaEncontrada = true;
-                  break;
-              }
+            if (disciplina.getNome().equalsIgnoreCase(nomeDisciplina)) {
+              disciplinaSelecionada = disciplina;
+              disciplinaEncontrada = true;
+              break;
+            }
           }
       
           // Se aluno e disciplina foram encontrados, insere a nota
